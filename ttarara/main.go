@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 	"log"
+	"net-cat/server"
 	"os"
-	"ttarara/server"
 )
 
 func main() {

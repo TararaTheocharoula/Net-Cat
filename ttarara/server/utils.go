@@ -1,3 +1,4 @@
+// utils.go
 package server
 
 import (
@@ -5,7 +6,7 @@ import (
 	"net"
 )
 
-// ANSI Color Codes
+// ANSI Color Codes for terminal styling
 const (
 	Reset  = "\033[0m"
 	Red    = "\033[31m"
@@ -18,11 +19,14 @@ const (
 	Bold   = "\033[1m"
 )
 
-// Colorize function
+// colorize wraps text with ANSI color codes
+// Used to style messages with color
 func colorize(text, color string) string {
 	return fmt.Sprintf("%s%s%s", color, text, Reset)
 }
 
+// validateName ensures a username is between 3-20 characters
+// and only contains alphanumeric characters
 func (s *Server) validateName(name string) bool {
 	if len(name) < 3 || len(name) > 20 {
 		return false
@@ -37,6 +41,8 @@ func (s *Server) validateName(name string) bool {
 	return true
 }
 
+// sendHistory sends stored messages from the current room to the client
+// This gives new users a sense of chat context
 func (s *Server) sendHistory(client *Client) {
 	if len(s.history[client.room]) > 0 {
 		client.conn.Write([]byte("\nChat history:\n"))
@@ -46,6 +52,8 @@ func (s *Server) sendHistory(client *Client) {
 	}
 }
 
+// printLogo sends a multi-line ASCII logo to the client with colors
+// Fun visual shown upon connecting
 func (s *Server) printLogo(conn net.Conn) {
 	logo := []string{
 		colorize("         _nnnn_        ", Cyan),
