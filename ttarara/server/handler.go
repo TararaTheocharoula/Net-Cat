@@ -12,8 +12,6 @@ import (
 // handleMessages continuously listens for messages from a connected client
 // It handles commands (starting with '/') and normal chat messages
 func (s *Server) handleMessages(client *Client) {
-	// Send past messages from the room to the client
-	s.sendHistory(client)
 
 	scanner := bufio.NewScanner(client.conn)
 	for scanner.Scan() {
